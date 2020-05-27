@@ -1,40 +1,14 @@
 package org.example.pl0
 
-
-private enum class Precedence {
-    LOWEST,
-    EQUALS,
-    LESSGREATER,
-    SUM,
-    PRODUCT,
-    PREFIX,
-    CALL
-}
-
-private val precedenceMap = mapOf<TokenKind, Precedence>(
-    TokenKind.EQUAL to Precedence.EQUALS,
-    TokenKind.NOTEQ to Precedence.EQUALS,
-    TokenKind.LSS to Precedence.LESSGREATER,
-    TokenKind.GRT to Precedence.LESSGREATER,
-    TokenKind.GRTEQ to Precedence.LESSGREATER,
-    TokenKind.LSSEQ to Precedence.LESSGREATER,
-    TokenKind.PLUS to Precedence.SUM,
-    TokenKind.MINUS to Precedence.SUM,
-    TokenKind.DIV to Precedence.PRODUCT,
-    TokenKind.MULTI to Precedence.PRODUCT
-)
-
 /**
- * program := block .
- * block := [constDecl|varDecl|funcDecl] statement-list
- * statement-list := {statement}
- * constDecl := const identifier = number{, identifier = number } ;
- * varDecl := var identifier{, identifier};
- * funcDecl := function ident ([ident{, ident}]) {block};
+ * program := block
+ * block := statement-list
+ * constDecl := const identifier = number{, identifier = number }
+ * varDecl := var identifier{, identifier}
+ * funcDecl := function ident ([ident{, ident}]) { block };
  * statement := identifier = expression
- *              | begin statement{; statement} end
- *              | if ( condition ) then { statement }
- *              | while (condition) do { statement }
+ *              | if ( condition ) "{" statement-list "}"
+ *              | while (condition) do "{" statement-list "}"
  *              | return expression
  *              | write expression
  *              | writeln
@@ -49,8 +23,7 @@ private val precedenceMap = mapOf<TokenKind, Precedence>(
  *          | ident ([expression{, expression}])
  *          | ( expression )
  *
- * */
-
+ */
 class Parser(lexer: Lexer) {
 
     /*
