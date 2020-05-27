@@ -25,20 +25,6 @@ package org.example.pl0
  *
  */
 class Parser(lexer: Lexer) {
-
-    /*
-      index[0] = 0
-      lAddr[0] = 3
-      index[1] = 2
-      lAddr[2] = 4
-      localAddr = 5 ?
-    * 0 f
-    * 1 x
-    * 2 y
-    * 3 g
-    * 4 a
-    * 5 b
-    * */
     private val levelIndex = mutableMapOf(-1 to 0)
     private val levelAddr = mutableMapOf(-1 to 0)
     private var level: Int = 0
@@ -428,24 +414,10 @@ class Parser(lexer: Lexer) {
         }
     }
 
-    /* OK */
-    private fun parseNumber(): IntToken {
-        return assertAndReadToken()
-    }
-
     private inline fun <reified T> assertAndReadToken(): T {
         val token = assertTokenIs<T>(currentToken)
         nextToken()
         return token
-    }
-
-    private inline fun <reified T> assertCurrentToken(): T {
-        return assertTokenIs(currentToken)
-    }
-
-
-    private inline fun <reified T> assertNextToken(): T {
-        return assertTokenIs(nextToken())
     }
 
     private inline fun <reified T> assertTokenIs(token: Token): T {
