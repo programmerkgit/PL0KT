@@ -6,9 +6,7 @@ My first language written by kotlin.
 /**
  * program := block
  * block := statement-list
- * constDecl := const identifier = number{, identifier = number }
- * varDecl := var identifier{, identifier}
- * funcDecl := function ident "("[ident{, ident}]")" "{" block "}";
+ * statement-list := {statement}
  * statement := identifier = expression
  *              | if "(" condition ")" "{" statement-list "}"
  *              | while "("condition")" do "{" statement-list "}"
@@ -18,6 +16,9 @@ My first language written by kotlin.
  *              | constDecl
  *              | varDecl
  *              | funcDecl
+ * constDecl := const identifier = number{, identifier = number }
+ * varDecl := var identifier{, identifier}
+ * funcDecl := function ident "("[ident{, ident}]")" "{" block "}";
  * condition := expression =|<>|<|>|<=|>= expression
  * expression := [+|-] term {+ term}
  * term := factor {(*|/) factor }
