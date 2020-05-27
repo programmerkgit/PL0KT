@@ -72,9 +72,8 @@ while(i < 10) do {
     i = i + 1 
 }
 const n = 3
-writeln
 write n
-writeln
+
         """.trimIndent()
         )
         val p = Parser(l)
