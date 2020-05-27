@@ -4,18 +4,20 @@ My first language written by kotlin.
 ## BNF
 ```kotlin
 /**
- * program := block .
- * block := [constDecl|varDecl|funcDecl] statement
- * constDecl := const identifier = number{, identifier = number } ;
- * varDecl := var identifier{, identifier};
+ * program := block
+ * block := statement-list
+ * constDecl := const identifier = number{, identifier = number }
+ * varDecl := var identifier{, identifier}
  * funcDecl := function ident ([ident{, ident}]) {block};
  * statement := identifier = expression
- *              | begin statement{; statement} end
- *              | if ( condition ) { statement }
- *              | while (condition) do { statement }
+ *              | if ( condition ) { statement-list }
+ *              | while (condition) do { statement-list }
  *              | return expression
  *              | write expression
  *              | writeln
+ *              | constDecl
+ *              | varDecl
+ *              | funcDecl
  * condition := expression =|<>|<|>|<=|>= expression
  * expression := [+|-] term {+ term}
  * term := factor {(*|/) factor }
