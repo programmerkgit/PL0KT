@@ -271,8 +271,11 @@ class Parser(lexer: Lexer) {
                 assertAndReadToken<RBraceToken>()
             }
             /* OK */
-            is BeginToken -> {
-                /* begin statement{; statement} end */
+            /**
+             * @deprecated
+             */
+            /*is BeginToken -> {
+                *//* begin statement{; statement} end *//*
                 assertAndReadToken<BeginToken>()
                 while (true) {
                     parseStatement()
@@ -282,7 +285,7 @@ class Parser(lexer: Lexer) {
                     assertAndReadToken<SemicolonToken>()
                 }
                 assertAndReadToken<EndToken>()
-            }
+            }*/
             /* OK */
             is WhileToken -> {
                 /* while ( condition ) do { statement }*/
