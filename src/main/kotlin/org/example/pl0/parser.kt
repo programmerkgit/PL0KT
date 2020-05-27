@@ -94,7 +94,18 @@ class Parser(lexer: Lexer) {
         return
     }
 
-    /* block */
+    /* {statement}) */
+    private fun parseStatementList() {
+        while (currentToken is IdentifierToken || currentToken is BeginToken ||
+            currentToken is IfToken || currentToken is WhenToken || currentToken is WhileToken || currentToken is ReturnToken ||
+            currentToken is WriteToken || currentToken is WritelnToken
+        ) {
+            parseStatement()
+        }
+    }
+
+    /* TODO: change statement to statement list  */
+    /* {funcDecl | constDecl | varDecl} statement_list */
     private fun parseBlock(funcEntry: FuncEntry? = null) {
         /* 関数の実行部にjmpする */
         val jmp = Jmp()
@@ -123,7 +134,7 @@ class Parser(lexer: Lexer) {
         }
         /*　ブロックの始まり　*/
         codes.add(Ict(localAddr))
-        parseStatement()
+        parseStatementList()
         if (codes.last() !is Ret) {
             codes.add(Ret(level, funcEntry?.parCount ?: 0))
         }
@@ -170,9 +181,8 @@ class Parser(lexer: Lexer) {
     }
 
     /* OK */
-    /*  */
     private fun parseVarDecl() {
-        /*  var ident{, ident} ; */
+        /*  var ident{, ident} */
         assertAndReadToken<VarToken>()
         while (true) {
             val identifier = assertAndReadToken<IdentifierToken>()
@@ -184,7 +194,6 @@ class Parser(lexer: Lexer) {
             }
             assertAndReadToken<CommaToken>()
         }
-        assertAndReadToken<SemicolonToken>()
     }
 
     /* OK */
@@ -215,17 +224,13 @@ class Parser(lexer: Lexer) {
             (nameTable[index + i] as ParEntry).parAddr = i - funcEntry.parCount
             i++
         }
-        (index until index + funcEntry.parCount).forEach { i ->
-        }
         assertAndReadToken<LBraceToken>()
         parseBlock(funcEntry)
         assertAndReadToken<RBraceToken>()
     }
 
-    private fun endPar() {
 
-    }
-
+    /* parse statement; */
     private fun parseStatement() {
         when (currentToken) {
             is IdentifierToken -> {
@@ -290,7 +295,7 @@ class Parser(lexer: Lexer) {
                 codes.add(jpc)
                 assertAndReadToken<DoToken>()
                 assertAndReadToken<LBraceToken>()
-                parseStatement()
+                parseStatementList()
                 codes.add(Jmp(i))
                 jpc.value = codes.size
                 assertAndReadToken<RBraceToken>()
@@ -317,7 +322,7 @@ class Parser(lexer: Lexer) {
                 codes.add(Wrl())
             }
             else -> {
-
+                println("empty statement")
             }
         }
     }

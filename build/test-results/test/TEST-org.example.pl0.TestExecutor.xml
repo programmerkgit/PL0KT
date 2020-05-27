@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.pl0.TestExecutor" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-27T15:12:44" hostname="keishis-iMac.local" time="0.058">
+<testsuite name="org.example.pl0.TestExecutor" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-27T15:38:38" hostname="keishis-iMac.local" time="0.051">
   <properties/>
-  <testcase name="testExecutor2" classname="org.example.pl0.TestExecutor" time="0.058"/>
+  <testcase name="testExecutor2" classname="org.example.pl0.TestExecutor" time="0.051"/>
   <system-out><![CDATA[0
-31
-31
-32
-33
-35
-38
-313
-321
-334
-3]]></system-out>
+1
+1
+2
+3
+5
+8
+13
+21
+34
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -52,29 +52,22 @@ end
         val l = Lexer(
             """
 function fibonacci(n) { 
-    begin
-        if(n == 0) {
-            return 0
-        };
-        if (n == 1) {
-            return 1 
-        };
-        return fibonacci(n -1) + fibonacci(n - 2); 
-    end
-}
-var i;
-const n = 3
-begin
-    i = 0;
-    while(i < 10) do { 
-        begin
-            write fibonacci(i); 
-            writeln;
-            write n;
-            i = i + 1;
-        end
+    if(n == 0) {
+        return 0
     }
-end 
+    if (n == 1) {
+        return 1 
+    }
+    return fibonacci(n -1) + fibonacci(n - 2)
+}
+var i
+const n = 3
+i = 0
+while(i < 10) do { 
+    write fibonacci(i) 
+    writeln
+    i = i + 1 
+}
         """.trimIndent()
         )
         val p = Parser(l)
