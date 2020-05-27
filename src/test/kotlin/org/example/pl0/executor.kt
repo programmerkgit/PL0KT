@@ -54,7 +54,6 @@ end
                 
                 
 write 3
-writeln
 function fibonacci(n) { 
     if(n == 0) {
         return 0
@@ -71,8 +70,6 @@ while(i < 10) do {
     writeln
     i = i + 1 
 }
-const n = 3
-write n
 
         """.trimIndent()
         )
