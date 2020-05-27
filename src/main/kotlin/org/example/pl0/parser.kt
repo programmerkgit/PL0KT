@@ -208,7 +208,7 @@ class Parser(lexer: Lexer) {
                         codes.add(Sto(entry.level, entry.parAddr))
                     }
                     else -> {
-                        error("unepected entry $entry")
+                        error("unexpected entry $entry")
                     }
                 }
             }
