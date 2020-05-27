@@ -268,24 +268,8 @@ class Parser(lexer: Lexer) {
                 assertAndReadToken<RBraceToken>()
             }
             /* OK */
-            /**
-             * @deprecated
-             */
-            /*is BeginToken -> {
-                *//* begin statement{; statement} end *//*
-                assertAndReadToken<BeginToken>()
-                while (true) {
-                    parseStatement()
-                    if (currentToken !is SemicolonToken) {
-                        break
-                    }
-                    assertAndReadToken<SemicolonToken>()
-                }
-                assertAndReadToken<EndToken>()
-            }*/
-            /* OK */
             is WhileToken -> {
-                /* while ( condition ) do { statement }*/
+                /* while ( condition ) do { statement-list }*/
                 assertAndReadToken<WhileToken>()
                 assertAndReadToken<LParenToken>()
                 val i = codes.size
