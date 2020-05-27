@@ -1,13 +1,12 @@
 package org.example.pl0
 
-/* TODO: refactor token name. */
 enum class TokenKind {
-    /* SPECIAL */
+    /* Special tokens */
     EOF, //end of file
     ILLEGAL, // not recognized
-    LOWEST, // dumy
+    LOWEST, // dummy
 
-    /* Noramal */
+    /* Literal */
     IDENTIFIER, //
     INT, //
 
@@ -20,17 +19,14 @@ enum class TokenKind {
     SEMICOLON, //;
     PERIOD, //.
 
-    /* Op */
-    ASSIGN, // =
-
-    /* Operators */
+    /* Math */
     PLUS, // +
     MINUS, // -
     MULTI, // *
     DIV, // /
     BANG, // !
 
-    /* MATH */
+    /* Compare */
     LSS, //<
     GRT, //>
     LSSEQ, //<=
@@ -39,6 +35,8 @@ enum class TokenKind {
     NOTEQ, // !=
 
     /* KEYWORDS */
+
+    /* Function */
     FUNCTION, // fn,
     RETURN, // return
 
@@ -47,19 +45,20 @@ enum class TokenKind {
     LET, //let
     CONST, //const
     VAL, // val
+    ASSIGN, // =
 
-    /* SENTENCE */
+    /* Sentences */
     IF, // if
     ELSE, // else
     WHILE, // while,
     WHEN, //when,
     THEN, // then
 
-    /* BOOL */
+    /* Bool */
     TRUE, //true
     FALSE, // false
 
-    /* Other */
+    /* Others */
     BEGIN, // begin
     END, // end
     WRITE, // write
