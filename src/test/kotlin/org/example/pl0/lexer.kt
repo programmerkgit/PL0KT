@@ -30,13 +30,14 @@ function a(b,c,d) {
             CommaToken(),
             IdentifierToken("d"),
             RParentToken(),
+            LBraceToken(),
             VarToken(),
             IdentifierToken("e"),
             CommaToken(),
             IdentifierToken("f"),
             CommaToken(),
             IdentifierToken("g"),
-            SemicolonToken(),
+            RBraceToken(),
             SemicolonToken()
         )
         tokens.forEach {
