@@ -8,10 +8,10 @@ My first language written by kotlin.
  * block := statement-list
  * constDecl := const identifier = number{, identifier = number }
  * varDecl := var identifier{, identifier}
- * funcDecl := function ident ([ident{, ident}]) { block };
+ * funcDecl := function ident "("[ident{, ident}]")" "{" block "}";
  * statement := identifier = expression
- *              | if ( condition ) "{" statement-list "}"
- *              | while (condition) do "{" statement-list "}"
+ *              | if "(" condition ")" "{" statement-list "}"
+ *              | while "("condition")" do "{" statement-list "}"
  *              | return expression
  *              | write expression
  *              | writeln
@@ -23,8 +23,8 @@ My first language written by kotlin.
  * term := factor {(*|/) factor }
  * factor := ident
  *          | number
- *          | ident ([expression{, expression}])
- *          | ( expression )
+ *          | ident "("[expression{, expression}]")"
+ *          | "(" expression ")"
  *
  */
 ```
