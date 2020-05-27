@@ -294,6 +294,7 @@ class Parser(lexer: Lexer) {
                 }
                 codes.add(Ret(level, funcEntry.parCount))
             }
+            /* Write */
             is WriteToken -> {
                 /* OK */
                 assertAndReadToken<WriteToken>()
@@ -310,8 +311,6 @@ class Parser(lexer: Lexer) {
                 parseVarDecl()
             }
             is FuncToken -> {
-                /* 関数の実行をスキップ */
-                /* add name , but jump */
                 parseFuncDecl()
             }
             is ConstToken -> {
