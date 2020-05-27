@@ -1,28 +1,28 @@
 package org.example.pl0
+
 enum class Code {
-    lit,
-    opr,
-    lod,
-    sto,
-    cal,
-    ret,
-    ict,
-    jmp,
-    jpc,
-    neg,
-    eq,
-    noteq,
-    grt,
-    lss,
-    grteq,
-    lsseq,
-    add,
-    sub,
-    mul,
-    div,
-    odd,
-    wrt,
-    wrl
+    LIT,
+    LOD,
+    STO,
+    CAL,
+    RET,
+    ICT,
+    JMP,
+    JPC,
+    NEG,
+    EQ,
+    NOTEQ,
+    GRT,
+    LSS,
+    GRTEQ,
+    LSSEQ,
+    ADD,
+    SUB,
+    MUL,
+    DIV,
+    ODD,
+    WRT,
+    WRL
 }
 
 private fun <T> MutableList<T>.pop(): T {
@@ -36,46 +36,46 @@ abstract class Instruction1(opCode: Code, val level: Int, val addr: Int) : Instr
     }
 }
 
-class Lod(level: Int, addr: Int) : Instruction1(Code.lod, level, addr)
-class Sto(level: Int, addr: Int) : Instruction1(Code.sto, level, addr)
+class Lod(level: Int, addr: Int) : Instruction1(Code.LOD, level, addr)
+class Sto(level: Int, addr: Int) : Instruction1(Code.STO, level, addr)
 
 /* Call level 0, addr func*/
 /**
  * @param addr 相対アドレス
  *
  */
-class Cal(level: Int, addr: Int) : Instruction1(Code.cal, level, addr)
-class Ret(level: Int, pars: Int) : Instruction1(Code.ret, level, pars)
+class Cal(level: Int, addr: Int) : Instruction1(Code.CAL, level, addr)
+class Ret(level: Int, pars: Int) : Instruction1(Code.RET, level, pars)
 abstract class Instruction2(opCode: Code, var value: Int) : Instruction(opCode) {
     override fun toString(): String {
         return "code: $code value: $value"
     }
 }
 
-class Lit(value: Int) : Instruction2(Code.lit, value)
-class Ict(value: Int) : Instruction2(Code.ict, value)
-class Jmp(value: Int = 0) : Instruction2(Code.jmp, value)
-class Jpc(value: Int = 0) : Instruction2(Code.jpc, value)
+class Lit(value: Int) : Instruction2(Code.LIT, value)
+class Ict(value: Int) : Instruction2(Code.ICT, value)
+class Jmp(value: Int = 0) : Instruction2(Code.JMP, value)
+class Jpc(value: Int = 0) : Instruction2(Code.JPC, value)
 abstract class Instruction3(opCode: Code) : Instruction(opCode) {
     override fun toString(): String {
         return "code: $code"
     }
 }
 
-class Neg : Instruction3(Code.neg)
-class Eq : Instruction3(Code.eq)
-class NotEq : Instruction3(Code.noteq)
-class Grt : Instruction3(Code.grt)
-class Lss : Instruction3(Code.lss)
-class GrtEq : Instruction3(Code.grteq)
-class LssEq : Instruction3(Code.lsseq)
-class Add : Instruction3(Code.add)
-class Sub : Instruction3(Code.sub)
-class Mul : Instruction3(Code.mul)
-class Div : Instruction3(Code.div)
-class Odd : Instruction3(Code.odd)
-class Wrt : Instruction3(Code.wrt)
-class Wrl : Instruction3(Code.wrl)
+class Neg : Instruction3(Code.NEG)
+class Eq : Instruction3(Code.EQ)
+class NotEq : Instruction3(Code.NOTEQ)
+class Grt : Instruction3(Code.GRT)
+class Lss : Instruction3(Code.LSS)
+class GrtEq : Instruction3(Code.GRTEQ)
+class LssEq : Instruction3(Code.LSSEQ)
+class Add : Instruction3(Code.ADD)
+class Sub : Instruction3(Code.SUB)
+class Mul : Instruction3(Code.MUL)
+class Div : Instruction3(Code.DIV)
+class Odd : Instruction3(Code.ODD)
+class Wrt : Instruction3(Code.WRT)
+class Wrl : Instruction3(Code.WRL)
 
 /* mutable ?  */
 class Executor(val instructions: MutableList<Instruction>) {
