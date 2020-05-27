@@ -70,14 +70,14 @@ class Lexer(private val input: String) {
             '/' -> ensureSetPosition(DivToken())
             /* Compare */
             '>' -> return when (peakChar()) {
-                    '=' -> {
-                        incP()
-                        ensureSetPosition(GrtEqToken())
-                    }
-                    else -> {
-                        ensureSetPosition(GrtToken())
-                    }
+                '=' -> {
+                    incP()
+                    ensureSetPosition(GrtEqToken())
                 }
+                else -> {
+                    ensureSetPosition(GrtToken())
+                }
+            }
             '<' -> return when (peakChar()) {
                 '=' -> {
                     incP()
@@ -126,9 +126,9 @@ class Lexer(private val input: String) {
                 }
                 when (val text = input.slice(startPosition until p)) {
                     /* keywords */
-                    "function" -> {
-                        ensureSetPosition(FuncToken())
-                    }
+                    "function" -> ensureSetPosition(FuncToken(text))
+                    "func" -> ensureSetPosition(FuncToken(text))
+                    "fn" -> ensureSetPosition(FuncToken(text))
                     "return" -> ensureSetPosition(ReturnToken())
                     "let" -> ensureSetPosition(LetToken())
                     "val" -> ensureSetPosition(ValToken())
