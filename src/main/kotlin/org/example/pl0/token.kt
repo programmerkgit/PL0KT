@@ -1,5 +1,6 @@
 package org.example.pl0
 
+/* TODO: refactor token name. */
 enum class TokenKind {
     /* SPECIAL */
     EOF, //end of file
@@ -117,7 +118,7 @@ class LssEqToken() : Token(TokenKind.LSSEQ, "<=")
 class GrtToken() : Token(TokenKind.GRT, ">")
 class GrtEqToken() : Token(TokenKind.GRTEQ, ">=")
 
-/* keywods */
+/* keywords */
 class FuncToken(literal: String = "function") : Token(TokenKind.FUNCTION, literal)
 class IfToken() : Token(TokenKind.IF, "if")
 class WhenToken() : Token(TokenKind.WHEN, "when")
