@@ -70,7 +70,6 @@ class Parser(lexer: Lexer) {
     private val levelAddr = mutableMapOf(-1 to 0)
     private var level: Int = 0
     private var localAddr: Int = 2
-    private var curLevelIndex: Int = 0
 
     private val tokenizer = lexer
     private val nameTable = mutableListOf<TableEntry>()
@@ -108,14 +107,12 @@ class Parser(lexer: Lexer) {
         }
     }
 
-    /* TODO: 実行部と宣言部に分離しない。  */
-    /* block => 実行される部分  */
-    /* {funcDecl | constDecl | varDecl} statement_list */
+    /* block => statement_list  */
     private fun parseBlock(funcEntry: FuncEntry? = null) {
-        /* 関数の実行部にjmpする */
-        /*　ブロックの始まり　*/
         parseStatementList()
+        /* returnで終わっていない関数の場合はRetを生成 */
         if (codes.last() !is Ret) {
+            /* TODO: stackのpush, popで関数の引数を管理したい。関数の実行時に引数の分popすべき。 */
             codes.add(Ret(level, funcEntry?.parCount ?: 0))
         }
         /* block end */
@@ -178,15 +175,17 @@ class Parser(lexer: Lexer) {
     }
 
     /* OK */
-    /** function a(a,b) {
-     *  stack.add(a)
-     *  stack.add(b)
-     *  lod(level - x)
-     *  lod(level - x + 1)
-     *  stor(a)
-     *  stor(b)
-     * }
-     */
+    /* TODO: wrap jmp. should not return access to jmp */
+    private fun skipStart(): Jmp {
+        val jmp = Jmp()
+        codes.add(jmp)
+        return jmp
+    }
+
+    private fun skipEnd(jmp: Jmp) {
+        jmp.value = codes.size
+    }
+
     private fun parseFuncDecl() {
         /* function ident ([ident{, ident}]) {block} */
         assertAndReadToken<FuncToken>()
@@ -195,8 +194,8 @@ class Parser(lexer: Lexer) {
         val funcEntry = FuncEntry(identifierToken.literal, level, codes.size + 2, 0)
         addEntry(funcEntry)
         /* 宣言時には実行をスキップ */
-        val jmp = Jmp()
-        codes.add(jmp)
+        val jmp = skipStart()
+        /* line: codes.size + 2 */
         val index = nameTable.size
         assertAndReadToken<LParenToken>()
         blockBegin()
@@ -222,7 +221,7 @@ class Parser(lexer: Lexer) {
         assertAndReadToken<LBraceToken>()
         parseBlock(funcEntry)
         /* ここまでスキップ */
-        jmp.value = codes.size
+        skipEnd(jmp)
         assertAndReadToken<RBraceToken>()
     }
 
