@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.pl0.TestExecutor" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-27T15:38:38" hostname="keishis-iMac.local" time="0.051">
+<testsuite name="org.example.pl0.TestExecutor" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-27T16:35:25" hostname="keishis-iMac.local" time="0.046">
   <properties/>
-  <testcase name="testExecutor2" classname="org.example.pl0.TestExecutor" time="0.051"/>
-  <system-out><![CDATA[0
+  <testcase name="testExecutor2" classname="org.example.pl0.TestExecutor" time="0.046"/>
+  <system-out><![CDATA[3
+0
 1
 1
 2
@@ -12,6 +13,8 @@
 13
 21
 34
+
+3
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

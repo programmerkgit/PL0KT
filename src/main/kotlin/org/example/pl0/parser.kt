@@ -26,7 +26,8 @@ private val precedenceMap = mapOf<TokenKind, Precedence>(
 
 /**
  * program := block .
- * block := [constDecl|varDecl|funcDecl] statement
+ * block := [constDecl|varDecl|funcDecl] statement-list
+ * statement-list := {statement}
  * constDecl := const identifier = number{, identifier = number } ;
  * varDecl := var identifier{, identifier};
  * funcDecl := function ident ([ident{, ident}]) {block};
@@ -37,7 +38,9 @@ private val precedenceMap = mapOf<TokenKind, Precedence>(
  *              | return expression
  *              | write expression
  *              | writeln
- *              |
+ *              | constDecl
+ *              | varDecl
+ *              | funcDecl
  * condition := expression =|<>|<|>|<=|>= expression
  * expression := [+|-] term {+ term}
  * term := factor {(*|/) factor }
@@ -99,41 +102,18 @@ class Parser(lexer: Lexer) {
         while (currentToken is IdentifierToken || currentToken is BeginToken ||
             currentToken is IfToken || currentToken is WhenToken || currentToken is WhileToken || currentToken is ReturnToken ||
             currentToken is WriteToken || currentToken is WritelnToken
+            || currentToken is VarToken || currentToken is ConstToken || currentToken is FuncToken
         ) {
             parseStatement()
         }
     }
 
-    /* TODO: change statement to statement list  */
+    /* TODO: 実行部と宣言部に分離しない。  */
+    /* block => 実行される部分  */
     /* {funcDecl | constDecl | varDecl} statement_list */
     private fun parseBlock(funcEntry: FuncEntry? = null) {
         /* 関数の実行部にjmpする */
-        val jmp = Jmp()
-        codes.add(jmp)
-        loop@ while (currentToken is VarToken || currentToken is FuncToken || currentToken is ConstToken) {
-            when (currentToken) {
-                is VarToken -> {
-                    parseVarDecl()
-                }
-                is FuncToken -> {
-                    parseFuncDecl()
-                }
-                is ConstToken -> {
-                    parseConstDecl()
-                }
-                else -> {
-                    break@loop
-                }
-            }
-        }
-        /* 関数の実行部を確定 */
-        jmp.value = codes.size
-        /* Tableの関数も修正。なくても動く。最適化のため */
-        if (funcEntry != null) {
-            funcEntry.rAddr = codes.size
-        }
         /*　ブロックの始まり　*/
-        codes.add(Ict(localAddr))
         parseStatementList()
         if (codes.last() !is Ret) {
             codes.add(Ret(level, funcEntry?.parCount ?: 0))
@@ -145,7 +125,7 @@ class Parser(lexer: Lexer) {
     private fun blockEnd() {
         level--
         var i = checkNotNull(levelIndex[level])
-        (i until nameTable.size).forEach {
+        (i until nameTable.size).forEach { _ ->
             nameTable.removeAt(nameTable.size - 1)
         }
         localAddr = checkNotNull(levelAddr[level])
@@ -175,6 +155,7 @@ class Parser(lexer: Lexer) {
 
     private fun addEntry(tableEntry: TableEntry) {
         nameTable.add(tableEntry)
+        codes.add(Ict(1))
         if (tableEntry is VarEntry) {
             localAddr++;
         }
@@ -197,12 +178,25 @@ class Parser(lexer: Lexer) {
     }
 
     /* OK */
+    /** function a(a,b) {
+     *  stack.add(a)
+     *  stack.add(b)
+     *  lod(level - x)
+     *  lod(level - x + 1)
+     *  stor(a)
+     *  stor(b)
+     * }
+     */
     private fun parseFuncDecl() {
         /* function ident ([ident{, ident}]) {block} */
         assertAndReadToken<FuncToken>()
         val identifierToken = assertAndReadToken<IdentifierToken>()
-        val funcEntry = FuncEntry(identifierToken.literal, level, codes.size, 0)
+        /* 呼び出し時には関数の登録と関数のスキップをスキップ */
+        val funcEntry = FuncEntry(identifierToken.literal, level, codes.size + 2, 0)
         addEntry(funcEntry)
+        /* 宣言時には実行をスキップ */
+        val jmp = Jmp()
+        codes.add(jmp)
         val index = nameTable.size
         assertAndReadToken<LParenToken>()
         blockBegin()
@@ -211,6 +205,7 @@ class Parser(lexer: Lexer) {
             while (true) {
                 val parToken = assertAndReadToken<IdentifierToken>()
                 addEntry(ParEntry(parToken.literal, level))
+                /* TODO: codes.add()*/
                 funcEntry.parCount += 1
                 if (currentToken !is CommaToken) {
                     break
@@ -226,6 +221,8 @@ class Parser(lexer: Lexer) {
         }
         assertAndReadToken<LBraceToken>()
         parseBlock(funcEntry)
+        /* ここまでスキップ */
+        jmp.value = codes.size
         assertAndReadToken<RBraceToken>()
     }
 
@@ -238,6 +235,7 @@ class Parser(lexer: Lexer) {
                 /* ident := expression */
                 val token = assertAndReadToken<IdentifierToken>()
                 when (val entry = findEntry(token.literal)) {
+                    /* var decl, var assign */
                     is VarEntry -> {
                         addEntry(entry)
                         assertAndReadToken<AssignToken>()
@@ -323,6 +321,18 @@ class Parser(lexer: Lexer) {
                 assertAndReadToken<WritelnToken>()
                 /* OK */
                 codes.add(Wrl())
+            }
+            /* Decl */
+            is VarToken -> {
+                parseVarDecl()
+            }
+            is FuncToken -> {
+                /* 関数の実行をスキップ */
+                /* add name , but jump */
+                parseFuncDecl()
+            }
+            is ConstToken -> {
+                parseConstDecl()
             }
             else -> {
                 println("empty statement")

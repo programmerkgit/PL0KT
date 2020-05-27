@@ -51,6 +51,10 @@ end
     fun testExecutor2() {
         val l = Lexer(
             """
+                
+                
+write 3
+writeln
 function fibonacci(n) { 
     if(n == 0) {
         return 0
@@ -61,13 +65,16 @@ function fibonacci(n) {
     return fibonacci(n -1) + fibonacci(n - 2)
 }
 var i
-const n = 3
 i = 0
-while(i < 10) do { 
+while(i < 10) do {
     write fibonacci(i) 
     writeln
     i = i + 1 
 }
+const n = 3
+writeln
+write n
+writeln
         """.trimIndent()
         )
         val p = Parser(l)
