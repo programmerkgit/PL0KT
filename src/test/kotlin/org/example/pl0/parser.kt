@@ -41,8 +41,8 @@ end.
         """.trimIndent()
         )
         val p = Parser(l)
-        p.parse()
-        p.codes.forEachIndexed { i, v ->
+        val codes  = p.parse()
+        codes.forEachIndexed { i, v ->
             println("i: $i $v")
         }
     }
@@ -63,12 +63,12 @@ end
         """.trimIndent()
         )
         val p = Parser(l)
-        p.parse()
-        p.codes.forEachIndexed { i, v ->
+        val codes = p.parse()
+        codes.forEachIndexed { i, v ->
             println("i: $i $v")
         }
         println("start")
-        Executor(p.codes).execute()
+        Executor(codes).execute()
         println("done")
     }
 
@@ -89,8 +89,8 @@ end
         """.trimIndent()
         )
         val p = Parser(l)
-        p.parse()
-        p.codes.forEachIndexed { i, v ->
+        val codes = p.parse()
+        codes.forEachIndexed { i, v ->
             println("i: $i $v")
         }
     }

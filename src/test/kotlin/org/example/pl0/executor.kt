@@ -43,8 +43,8 @@ end
         """.trimIndent()
         )
         val p = Parser(l)
-        p.parse()
-        Executor(p.codes).execute()
+        val codes = p.parse()
+        Executor(codes).execute()
     }
 
     @Test
@@ -74,8 +74,8 @@ while(i < 10) do {
         """.trimIndent()
         )
         val p = Parser(l)
-        p.parse()
-        Executor(p.codes).execute()
+        val codes = p.parse()
+        Executor(codes).execute()
     }
 
 }

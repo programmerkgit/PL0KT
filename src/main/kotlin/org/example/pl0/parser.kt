@@ -32,7 +32,7 @@ class Parser(lexer: Lexer) {
 
     private val tokenizer = lexer
     private val nameTable = mutableListOf<TableEntry>()
-    val codes = mutableListOf<Instruction>()
+    private val codes = mutableListOf<Instruction>()
 
     private var currentToken: Token = tokenizer.nextToken()
 
@@ -42,8 +42,9 @@ class Parser(lexer: Lexer) {
         return next
     }
 
-    fun parse() {
+    fun parse(): List<Instruction> {
         parseBlock()
+        return codes
     }
 
     private fun blockBegin(firstAddr: Int = 2) {

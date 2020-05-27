@@ -78,7 +78,7 @@ class Wrt : Instruction3(Code.WRT)
 class Wrl : Instruction3(Code.WRL)
 
 /* mutable ?  */
-class Executor(val instructions: MutableList<Instruction>) {
+class Executor(private val instructions: List<Instruction>) {
     var pc = 0;
     var stack = mutableListOf<Int>()
     val display = mutableMapOf<Int, Int>(0 to 0)
