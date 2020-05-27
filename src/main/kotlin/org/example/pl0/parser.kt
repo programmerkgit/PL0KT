@@ -23,6 +23,7 @@ private val precedenceMap = mapOf<TokenKind, Precedence>(
     TokenKind.DIV to Precedence.PRODUCT,
     TokenKind.MULTI to Precedence.PRODUCT
 )
+
 /**
  * program := block .
  * block := [constDecl|varDecl|funcDecl] statement
@@ -93,7 +94,7 @@ class Parser(lexer: Lexer) {
         return
     }
 
-    /* OK */
+    /* block */
     private fun parseBlock(funcEntry: FuncEntry? = null) {
         /* 関数の実行部にjmpする */
         val jmp = Jmp()
@@ -140,6 +141,7 @@ class Parser(lexer: Lexer) {
     }
 
     /* OK */
+    /* const ident = number{, ident = number} */
     private fun parseConstDecl() {
         /* const ident = number{, ident = number} */
         assertAndReadToken<ConstToken>()
@@ -153,7 +155,6 @@ class Parser(lexer: Lexer) {
             }
             assertAndReadToken<CommaToken>()
         }
-        assertAndReadToken<SemicolonToken>()
     }
 
     /* OK */
@@ -169,6 +170,7 @@ class Parser(lexer: Lexer) {
     }
 
     /* OK */
+    /*  */
     private fun parseVarDecl() {
         /*  var ident{, ident} ; */
         assertAndReadToken<VarToken>()

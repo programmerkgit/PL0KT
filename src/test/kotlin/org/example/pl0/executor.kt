@@ -63,12 +63,14 @@ function fibonacci(n) {
     end
 }
 var i;
+const n = 3
 begin
     i = 0;
     while(i < 10) do { 
         begin
-            write fibonacci(i);
+            write fibonacci(i); 
             writeln;
+            write n;
             i = i + 1;
         end
     }
