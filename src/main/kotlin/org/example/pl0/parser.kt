@@ -241,6 +241,7 @@ class Parser(lexer: Lexer) {
                         parseExpression()
                         codes.add(Sto(entry.level, entry.addr))
                     }
+                    /* reassign to parameter */
                     is ParEntry -> {
                         addEntry(entry)
                         assertAndReadToken<AssignToken>()
