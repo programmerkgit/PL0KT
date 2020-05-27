@@ -191,7 +191,7 @@ class Parser(lexer: Lexer) {
         /* function ident ([ident{, ident}]) {block} */
         assertAndReadToken<FuncToken>()
         val identifierToken = assertAndReadToken<IdentifierToken>()
-        /* 呼び出し時には関数の登録と関数のスキップをスキップ */
+        /* 呼び出し時には関数の登録と関数のスキップをスキップ codes.size + 2 */
         val funcEntry = FuncEntry(identifierToken.literal, level, codes.size + 2, 0)
         addEntry(funcEntry)
         /* 宣言時には実行をスキップ */

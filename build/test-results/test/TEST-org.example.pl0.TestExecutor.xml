@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.pl0.TestExecutor" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-27T16:35:25" hostname="keishis-iMac.local" time="0.046">
+<testsuite name="org.example.pl0.TestExecutor" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-27T16:37:46" hostname="keishis-iMac.local" time="0.047">
   <properties/>
-  <testcase name="testExecutor2" classname="org.example.pl0.TestExecutor" time="0.046"/>
+  <testcase name="testExecutor2" classname="org.example.pl0.TestExecutor" time="0.047"/>
   <system-out><![CDATA[3
 0
 1
