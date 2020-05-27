@@ -118,7 +118,7 @@ class GrtToken() : Token(TokenKind.GRT, ">")
 class GrtEqToken() : Token(TokenKind.GRTEQ, ">=")
 
 /* keywods */
-class FuncToken() : Token(TokenKind.FUNCTION, "function")
+class FuncToken(literal: String = "function") : Token(TokenKind.FUNCTION, literal)
 class IfToken() : Token(TokenKind.IF, "if")
 class WhenToken() : Token(TokenKind.WHEN, "when")
 class ElseToken() : Token(TokenKind.ELSE, "else")
