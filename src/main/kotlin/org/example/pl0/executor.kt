@@ -110,11 +110,7 @@ class Executor(val instructions: MutableList<Instruction>) {
                     }
                     stack.add(ret)
                 }
-                is Ict -> {/* Is increment necessary */
-                    repeat(inst.value) {
-                        stack.add(0)
-                    }
-                }
+                is Ict -> repeat(inst.value) { stack.add(0) }
                 is Jmp -> pc = inst.value
                 is Jpc -> {
                     if (stack.pop() == 0) {
